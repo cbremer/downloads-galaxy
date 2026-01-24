@@ -20,13 +20,42 @@ A space-themed visual file browser for your Downloads folder. View your files as
 python3 downloads-server.py
 ```
 
+To scan a specific folder, pass it as an argument:
+
+```bash
+python3 downloads-server.py /path/to/folder
+```
+
+**Note:** If running from a different directory, either use the full path to the script:
+
+```bash
+python3 /path/to/downloads-galaxy/downloads-server.py /path/to/folder
+```
+
+Or change to the script's directory first:
+
+```bash
+cd /path/to/downloads-galaxy
+python3 downloads-server.py /path/to/folder
+```
+
+More examples:
+
+```bash
+# Scan an external drive
+python3 downloads-server.py /Volumes/MyDrive
+
+# Use a different port
+PORT=8001 python3 downloads-server.py /path/to/folder
+```
+
 ### Open in Browser
 
 Navigate to [http://localhost:8000](http://localhost:8000)
 
 ### Reindex
 
-Click the **Reindex** button to rescan your Downloads folder and see any new or changed files.
+Click the **Reindex** button to rescan your folder and see any new or changed files.
 
 ## Requirements
 
@@ -35,7 +64,7 @@ Click the **Reindex** button to rescan your Downloads folder and see any new or 
 
 ## How It Works
 
-The Python server scans your `~/Downloads` folder and serves file metadata via a JSON API. The HTML page fetches this data and renders an interactive, animated visualization. No files are moved or modified - it's purely a viewer.
+The Python server scans the specified folder (or `~/Downloads` by default) and serves file metadata via a JSON API. The HTML page fetches this data and renders an interactive, animated visualization. No files are moved or modified - it's purely a viewer.
 
 ## License
 
