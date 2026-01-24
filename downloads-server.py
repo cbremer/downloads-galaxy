@@ -3,6 +3,8 @@
 Downloads Galaxy Server
 Run this script and open http://localhost:8000 in your browser.
 Click "Reindex" to refresh the file list from your Downloads folder.
+
+To use a different port: PORT=8001 python3 downloads-server.py
 """
 
 import http.server
@@ -13,7 +15,7 @@ from datetime import datetime
 import mimetypes
 
 DOWNLOADS_PATH = Path.home() / "Downloads"
-PORT = 8000
+PORT = int(os.environ.get('PORT', 8000))
 
 # File type categorization
 FILE_CATEGORIES = {
