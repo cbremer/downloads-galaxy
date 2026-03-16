@@ -11,10 +11,13 @@ A space-themed visual file browser for your Downloads folder. View your files as
 - **Interactive Hover Effects** - Glowing spotlight follows your cursor
 - **Filter Buttons** - Show only specific file types
 - **Live Reindexing** - Rescan your Downloads folder with one click
+- **Desktop Prototype** - Tkinter-based native app prototype with folder picker, stats, and file table
 
 ## Usage
 
-### Start the Server
+### Web App
+
+Start the server:
 
 ```bash
 python3 downloads-server.py
@@ -23,19 +26,6 @@ python3 downloads-server.py
 To scan a specific folder, pass it as an argument:
 
 ```bash
-python3 downloads-server.py /path/to/folder
-```
-
-**Note:** If running from a different directory, either use the full path to the script:
-
-```bash
-python3 /path/to/downloads-galaxy/downloads-server.py /path/to/folder
-```
-
-Or change to the script's directory first:
-
-```bash
-cd /path/to/downloads-galaxy
 python3 downloads-server.py /path/to/folder
 ```
 
@@ -49,22 +39,42 @@ python3 downloads-server.py /Volumes/MyDrive
 PORT=8001 python3 downloads-server.py /path/to/folder
 ```
 
-### Open in Browser
+Open in browser: [http://localhost:8000](http://localhost:8000)
 
-Navigate to [http://localhost:8000](http://localhost:8000)
+### Desktop Prototype
 
-### Reindex
+Launch the desktop app:
 
-Click the **Reindex** button to rescan your folder and see any new or changed files.
+```bash
+python3 downloads-desktop.py
+```
+
+Or index a different folder on launch:
+
+```bash
+python3 downloads-desktop.py /path/to/folder
+```
+
+Inside the desktop app:
+- Use **Choose Folder** to pick a new folder.
+- Click **Reindex** to refresh results.
+- Select a folder constellation on the left to view files on the right.
+
+## Desktop Migration Plan
+
+A staged plan for taking this prototype to a production desktop release is documented in:
+
+- `DESKTOP_APP_PLAN.md`
 
 ## Requirements
 
 - Python 3.x
-- A modern web browser
+- For web mode: a modern web browser
+- For desktop mode: Tkinter (included with most Python distributions)
 
 ## How It Works
 
-The Python server scans the specified folder (or `~/Downloads` by default) and serves file metadata via a JSON API. The HTML page fetches this data and renders an interactive, animated visualization. No files are moved or modified - it's purely a viewer.
+The shared scanner module (`downloads_core.py`) indexes the target folder and classifies files. The web server (`downloads-server.py`) exposes that data as JSON and renders the HTML visualization. The desktop prototype (`downloads-desktop.py`) calls the same scanner logic directly to render a native UI. No files are moved or modified - it's purely a viewer.
 
 ## License
 
