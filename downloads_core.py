@@ -182,12 +182,16 @@ def scan_path(scan_path: Path):
                 root_files.append(file_data)
 
     if root_files:
+        total = sum(f['size_bytes'] for f in root_files)
         folders.append({
             'name': 'Uncategorized',
             'icon': '📂',
             'category': 'other',
             'files': root_files,
-            'total_size': sum(f['size_bytes'] for f in root_files)
+            'total_files': len(root_files),
+            'hidden_files': 0,
+            'total_size': total,
+            'total_size_formatted': format_size(total),
         })
 
     folders.sort(key=lambda x: x['total_size'], reverse=True)
