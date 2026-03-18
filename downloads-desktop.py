@@ -171,6 +171,29 @@ if __name__ == "__main__":
     args = parse_args()
     initial = Path(args.folder).expanduser().resolve()
 
+    # On macOS, the Command Line Tools Python may not be able to connect
+    # to the window server, causing a hard abort() in TkpInit.  Detect
+    # this situation and show a helpful message instead of crashing.
+    import sys
+    if sys.platform == "darwin":
+        import subprocess
+        proc = subprocess.run(
+            [sys.executable, "-c", "import tkinter; tkinter.Tk()"],
+            capture_output=True, timeout=10,
+        )
+        if proc.returncode != 0:
+            print(
+                "Error: Unable to initialize the Tk display.\n\n"
+                "The system Python from Command Line Tools cannot open GUI windows.\n"
+                "To fix this, install Python from python.org or via Homebrew:\n\n"
+                "  brew install python-tk\n\n"
+                "Or use the web-based viewer instead:\n\n"
+                "  python3 downloads-server.py\n"
+                "  Then open http://localhost:8000",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
     root = tk.Tk()
     app = DownloadsDesktopApp(root, initial)
     root.mainloop()
